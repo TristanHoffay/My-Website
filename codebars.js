@@ -2,6 +2,7 @@ speed = 20;
 frequency = 30;
 trailFade= 2;
 barcount = 0;
+color = [0, 255, 0];
 // If shots should generate at random space instead of the top
 midcolShots = false;
 function Bar(htmlElement) {
@@ -20,7 +21,7 @@ function Bar(htmlElement) {
     console.log(this.columns, this.rows, this.charCount);
     this.updateColor = function(charSpan, transition, transparency) {
         charSpan.style.transition = `color ${transition}s`;
-        charSpan.style.color = `rgba(0, 255, 0, ${transparency})`;
+        charSpan.style.color = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${transparency})`;
     };
     // Assigns new char to given <span> element (for individual chars)
     this.newChar = function (charSpan) {
@@ -96,4 +97,35 @@ function updateBars() {
         bar.update();
     }
 }
-window.setInterval(updateBars, 1000/speed)
+function setColor(r, g, b) {
+    color = [r, g, b];
+}
+var rslider = document.getElementById("rslide");
+var gslider = document.getElementById("gslide");
+var bslider = document.getElementById("bslide");
+var speedslider = document.getElementById("speed");
+var freqslider = document.getElementById("freq");
+var fadeslider = document.getElementById("fade");
+
+rslider.oninput = function() {
+    setColor(this.value, color[1], color[2])
+} 
+gslider.oninput = function() {
+    setColor(color[0], this.value, color[2])
+} 
+bslider.oninput = function() {
+    setColor(color[0], color[1], this.value)
+} 
+speedslider.oninput = function() {
+    clearInterval(interval)
+    speed = this.value;
+    interval = window.setInterval(updateBars, 1000/speed);
+    console.log(speed)
+} 
+freqslider.oninput = function() {
+    frequency = this.value;
+} 
+fadeslider.oninput = function() {
+    trailFade = this.value;
+} 
+interval = window.setInterval(updateBars, 1000/speed)
