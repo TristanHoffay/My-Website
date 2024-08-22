@@ -79,19 +79,19 @@ function Bar(htmlElement) {
             this.element.appendChild(newChar);
         }
     }
-    console.log(this.width);
+    console.log(this.height);
     this.element.style.width = `${this.width}px`;
 }
+bars = []
 function initBars() {
     bar_elements = document.getElementsByClassName("sidebar-code");
-    bars = []
     for (let bar of bar_elements){
         newbar = new Bar(bar);
         bars.push(newbar);
     }
     return bars
 }
-bars = initBars();
+setTimeout(initBars, 500);
 function updateBars() {
     for (let bar of bars){
         bar.update();
